@@ -18,7 +18,7 @@ const initialQuestions = [
   "10. 나중에 꼭 이루고 싶은 꿈이나 목표가 있어?",
 ];
 
-const ChatWindow = () => {
+export default function ChatWindow() {
   const [messages, setMessages] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [responses, setResponses] = useState([]);
@@ -64,19 +64,19 @@ const ChatWindow = () => {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "600px", margin: "auto" }}>
+    <div style={{ padding: "20px", maxWidth: "600px", margin: "auto", backgroundColor: "#000", color: "#fff" }}>
       <List
         bordered
         dataSource={messages}
         renderItem={(msg) => (
-          <List.Item>
-            <Typography.Text strong>
+          <List.Item style={{ backgroundColor: "#000", color: "#fff" }}>
+            <Typography.Text strong style={{ color: "#fff" }}>
               {msg.role === "user" ? "너" : "희망"}:
             </Typography.Text>{" "}
             {msg.content}
           </List.Item>
         )}
-        style={{ marginBottom: "20px" }}
+        style={{ marginBottom: "20px", maxHeight: "400px", overflowY: "scroll" }}
       />
       {currentQuestionIndex < initialQuestions.length && (
         <TextArea
@@ -84,19 +84,26 @@ const ChatWindow = () => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="답변을 입력해줘!"
-          style={{ marginBottom: "10px" }}
+          style={{
+            marginBottom: "10px",
+            backgroundColor: "#333", // 어두운 배경
+            color: "#fff",           // 흰색 텍스트
+            borderColor: "#555",     // 테두리 색상
+          }}
+          placeholderStyle={{
+            color: "#bbb", // placeholder 텍스트 색상
+          }}
         />
       )}
       <Button
         type="primary"
         onClick={sendMessage}
         block
+        style={{ backgroundColor: "#555", borderColor: "#555" }}
         disabled={currentQuestionIndex >= initialQuestions.length}
       >
         {currentQuestionIndex < initialQuestions.length ? "다음" : "상담 시작"}
       </Button>
     </div>
   );
-};
-
-export default ChatWindow;
+}
